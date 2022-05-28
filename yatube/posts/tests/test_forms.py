@@ -56,7 +56,7 @@ class PostCreateFormTests(TestCase):
         """При отправке валидной формы со страницы создания поста
         создаётся новая запись в базе данных."""
         posts_count = Post.objects.count()
-        small_gif = (  
+        small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x02\x00'
             b'\x01\x00\x80\x00\x00\x00\x00\x00'
             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'

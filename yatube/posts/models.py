@@ -100,4 +100,4 @@ class Follow(models.Model):
         ]
 
     def __str__(self):
-        return f'Подписывается {self.user.username} на {self.author.username}'
+        return self.text[:15]

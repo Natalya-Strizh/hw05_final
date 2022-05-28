@@ -299,8 +299,7 @@ class CommentImages(TestCase):
         """подписываем пользователя на автора и проверяем количество постов"""
         count_follow = 0
         self.authorized_client.post(
-            reverse('posts:profile_follow', kwargs={
-                'username': self.user.username}))
+            reverse('posts:profile_follow', kwargs={'username': self.user.username}))
         response = self.authorized_client.post(reverse('posts:follow_index'))
         self.assertEqual(
             len(response.context.get('paje_obj'), count_follow + 1))
@@ -309,7 +308,6 @@ class CommentImages(TestCase):
         """отписываем пользователя от автора и проверяем количество постов"""
         count_follow = 0
         self.authorized_client.post(
-            reverse('posts:profile_unfollow', kwargs={
-                'username': self.user.username}))
+            reverse('posts:profile_unfollow', kwargs={'username': self.user.username}))
         response = self.authorized_client.post(reverse('posts:follow_index'))
         self.assertEqual(len(response.context.get('paje_obj'), count_follow))

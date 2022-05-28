@@ -1,6 +1,4 @@
-from lib2to3.pgen2.token import COMMENT
 import shutil
-from email.mime import image
 import random
 import tempfile
 from django.contrib.auth import get_user_model
@@ -9,14 +7,13 @@ from django.urls import reverse
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.fields.files import ImageFieldFile
-from django.core.cache import cache 
+from django.core.cache import cache
 
 from posts.forms import PostForm
 
-from ..models import Group, Post, Comment, Follow 
+from ..models import Group, Post, Comment
 
 User = get_user_model()
-
 
 
 class PostViewsTest(TestCase):
@@ -309,8 +306,3 @@ class CommentImages(TestCase):
         self.authorized_client.post(reverse('posts:profile_unfollow', kwargs={'username': self.user.username}))
         response=self.authorized_client.post(reverse('posts:follow_index'))
         self.assertEqual(len(response.context.get('paje_obj'), count_follow))
-
-
-
-
-

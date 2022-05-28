@@ -4,7 +4,7 @@ from django import forms
 from django.test import Client, TestCase
 from django.contrib.auth import get_user_model
 from django.urls import reverse
-from ..models import Group, Post, Comment 
+from ..models import Group, Post
 from django.conf import settings
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import Client, TestCase, override_settings
@@ -16,6 +16,7 @@ from django.urls import reverse
 from posts.models import Group, Post
 
 User = get_user_model()
+
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
@@ -115,6 +116,3 @@ class PostCreateFormTests(TestCase):
         )
         self.assertEqual(post.text, dict_data['text'])
         self.assertEqual(post.group.title, self.group.title)
-
-    
-

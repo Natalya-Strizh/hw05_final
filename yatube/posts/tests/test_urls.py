@@ -8,6 +8,7 @@ ACCEPTED = 200
 FOUND = 302
 NOT_FOUND = 404
 
+
 class TaskURLTests(TestCase):
     @classmethod
     def setUpClass(cls):
@@ -99,7 +100,6 @@ class TaskURLTests(TestCase):
             with self.subTest(address=address):
                 response = self.authorized_client.get(address)
                 self.assertTemplateUsed(response, template)
-
 
     def test_add_comment_can_authorized_client(self):
         response = self.authorized_client.get(

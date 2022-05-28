@@ -97,7 +97,7 @@ class Follow(models.Model):
         verbose_name = 'подписки'
         constraints = [
             models.UniqueConstraint(fields=['user', 'author'], name='follow')
-            ]
+        ]
 
     def __str__(self):
         return f'Подписывается {self.user.username} на {self.author.username}'

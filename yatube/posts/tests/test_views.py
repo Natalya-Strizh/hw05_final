@@ -185,6 +185,8 @@ class PaginatorViewsTest(TestCase):
 
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)
+
+
 @override_settings(MEDIA_ROOT=TEMP_MEDIA_ROOT)
 class CommentImages(TestCase):
 
@@ -197,7 +199,7 @@ class CommentImages(TestCase):
             slug='test-slug',
             description='Тестовое описание',
         )
-        cls.small_gif = ( 
+        cls.small_gif = (
             b'\x47\x49\x46\x38\x39\x61\x02\x00'
             b'\x01\x00\x80\x00\x00\x00\x00\x00'
             b'\xFF\xFF\xFF\x21\xF9\x04\x00\x00'
@@ -264,7 +266,7 @@ class CommentImages(TestCase):
             follow=True
         )
         dict = {
-            reverse('posts:post_detail', kwargs={'post_id': self.post.id}): 
+            reverse('posts:post_detail', kwargs={'post_id': self.post.id}):
             Comment.objects.all(),
         }
         for reverse_name, filter in dict.items():
@@ -290,21 +292,25 @@ class CommentImages(TestCase):
     def follow_test_1(self):
         """проверяем отсутствиие подписок у пользователя"""
         count_follow = 0
-        response=self.authorized_client.post(reverse('posts:follow_index'))
+        response = self.authorized_client.post(reverse('posts:follow_index'))
         self.assertEqual(len(response.context.get('paje_obj'), count_follow))
 
     def follow_test_2(self):
         """подписываем пользователя на автора и проверяем количество постов"""
         count_follow = 0
         self.authorized_client.post(
-            reverse('posts:profile_follow', kwargs={'username': self.user.username}))
-        response=self.authorized_client.post(reverse('posts:follow_index'))
+            reverse('posts:profile_follow', 
+            kwargs={'username': self.user.username})
+        )
+        response = self.authorized_client.post(reverse('posts:follow_index'))
         self.assertEqual(len(response.context.get('paje_obj'), count_follow + 1))
 
     def follow_test_3(self):
         """отписываем пользователя от автора и проверяем количество постов"""
         count_follow = 0
         self.authorized_client.post(
-            reverse('posts:profile_unfollow', kwargs={'username': self.user.username}))
-        response=self.authorized_client.post(reverse('posts:follow_index'))
+            reverse('posts:profile_unfollow', 
+            kwargs={'username': self.user.username}))
+        response = self.authorized_client.post(reverse('posts:follow_index')
+        )
         self.assertEqual(len(response.context.get('paje_obj'), count_follow))

@@ -108,7 +108,7 @@ def post_edit(request, post_id):
     return render(request, 'posts/create_post.html', context)
 
 
-@login_required 
+@login_required
 def follow_index(request):
     user = request.user
     post_list = Post.objects.filter(author__following__user=user)
@@ -128,7 +128,7 @@ def profile_follow(request, username):
     if request.user != author and not Follow.objects.filter(
         user=request.user,
         author=author
-        ):
+    ):
         Follow.objects.create(user=user, author=author)
     return redirect('posts:profile', username=username)
 

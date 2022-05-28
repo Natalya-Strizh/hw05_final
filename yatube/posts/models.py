@@ -45,6 +45,7 @@ class Post(models.Model):
     )
     # Аргумент upload_to указывает директорию,
     # в которую будут загружаться пользовательские файлы.
+
     class Meta:
         ordering = ('-pub_date',)
         verbose_name = 'Пост'
@@ -76,6 +77,7 @@ class Comment(models.Model):
         help_text='Введите текст комментария'
     )
 
+
 class Follow(models.Model):
     user = models.ForeignKey(
         User,
@@ -93,7 +95,9 @@ class Follow(models.Model):
     class Meta:
         ordering = ('author',)
         verbose_name = 'подписки'
-        constraints = [models.UniqueConstraint(fields=['user', 'author'], name='follow'),]
+        constraints = [
+            models.UniqueConstraint(fields=['user', 'author'], name='follow')
+            ]
 
     def __str__(self):
         return f'Подписывается {self.user.username} на {self.author.username}'

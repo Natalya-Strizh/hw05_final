@@ -108,6 +108,7 @@ def post_edit(request, post_id):
     return render(request, 'posts/create_post.html', context)
 
 
+@login_required 
 def follow_index(request):
     user = request.user
     post_list = Post.objects.filter(author__following__user=user)

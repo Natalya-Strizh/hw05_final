@@ -99,7 +99,8 @@ class Follow(models.Model):
         constraints = [
             models.UniqueConstraint(fields=['user', 'author'], name='follow'),
             models.CheckConstraint(
-                check=models.Q(user=models.F('author')), name='user_is_not_author'),
+                check=models.Q(
+                    user=models.F('author')), name='user_is_not_author'),
         ]
 
     def __str__(self):

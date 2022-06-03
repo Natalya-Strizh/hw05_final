@@ -1,5 +1,6 @@
-from django.db import models
 from django.contrib.auth import get_user_model
+from django.db import models
+
 User = get_user_model()
 
 
@@ -96,7 +97,8 @@ class Follow(models.Model):
         ordering = ('author',)
         verbose_name = 'подписки'
         constraints = [
-            models.UniqueConstraint(fields=['user', 'author'], name='follow')
+            models.UniqueConstraint(fields=['user', 'author'], name='follow'),
+            models.CheckConstraint(check=models.Q(user=models.F('author')), name='user_is_not_author'),
         ]
 
     def __str__(self):

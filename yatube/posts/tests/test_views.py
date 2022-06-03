@@ -1,17 +1,18 @@
-import shutil
 import random
+import shutil
 import tempfile
-from django.contrib.auth import get_user_model
-from django.test import Client, TestCase, override_settings
-from django.urls import reverse
+
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.db.models.fields.files import ImageFieldFile
-from django.core.cache import cache
+from django.test import Client, TestCase, override_settings
+from django.urls import reverse
 
 from posts.forms import PostForm
 
-from ..models import Group, Post, Comment
+from ..models import Comment, Group, Post
 
 User = get_user_model()
 
@@ -156,12 +157,9 @@ class PaginatorViewsTest(TestCase):
             description='Тестовое описание',
             slug='test-slug',
         )
-        cls.obj_pages = random.randint(1, LIMIT - 1)
-        obj_posts = (Post(text='Текст №' + str(cls.obj_pages + 1),
-                          author=cls.user,
-                          group=cls.group
-                          ) for i in range(LIMIT + cls.obj_pages))
-        cls.post = Post.objects.bulk_create(obj_posts)
+        cls.obj_posts = [Post(
+            author=cls.user, group=cls.group, text=str(i)) for i in range(15)]
+        cls.post = Post.objects.bulk_create(cls.obj_posts)
         cls.dict_url = {
             reverse('posts:index'),
             reverse('posts:group_list', kwargs={'slug': cls.group.slug}),
@@ -181,7 +179,7 @@ class PaginatorViewsTest(TestCase):
     def test_second_page(self):
         for url in self.dict_url:
             response = self.authorized_client.get(url, {'page': 2})
-            self.assertEqual(len(response.context['page_obj']), self.obj_pages)
+            self.assertEqual(len(response.context['page_obj']), 15 - LIMIT)
 
 
 TEMP_MEDIA_ROOT = tempfile.mkdtemp(dir=settings.BASE_DIR)

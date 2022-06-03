@@ -98,7 +98,8 @@ class Follow(models.Model):
         verbose_name = 'подписки'
         constraints = [
             models.UniqueConstraint(fields=['user', 'author'], name='follow'),
-            models.CheckConstraint(check=models.Q(user=models.F('author')), name='user_is_not_author'),
+            models.CheckConstraint(
+                check=models.Q(user=models.F('author')), name='user_is_not_author'),
         ]
 
     def __str__(self):
